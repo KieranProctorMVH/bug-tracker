@@ -1,0 +1,14 @@
+# Don't format modules
+/node_modules
+
+# Don't format export files.
+/out
+
+# Don't format Next.js files.
+/.next
+
+# Don't format test directories.
+/cypress
+/__tests__
+
+/.husky

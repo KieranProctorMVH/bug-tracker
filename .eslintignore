@@ -1,0 +1,20 @@
+# Don't parse the modules.
+/node_modules
+
+# Don't parse export files.
+/out
+
+# Don't parse Next.js files.
+/.next
+
+# This is to stop the parser erroring.
+.eslintrc.js
+next.config.js
+postcss.config.js
+tailwind.config.js
+
+# Don't parse test directories.
+/cypress
+/__tests__
+
+/.husky
