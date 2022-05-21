@@ -1,30 +1,13 @@
-import { createClient } from "redis";
-import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
-dotenv.config();
+import logger from './logger';
+import app from './app';
 
-const host = process.env.HOST;
-const port = process.env.PORT;
+const port = app.get('port');
+const server = app.listen(port);
 
-const app: Express = express();
-const redis = createClient();
+process.on('unhandledRejection', (reason, p) =>
+  logger.error('Unhandled Rejection at: Promise ', p, reason)
+);
 
-redis.on("error", (err) => {
-  console.log(err);
-});
-
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
-});
-
-app.get("/bugs", async (req: Request, res: Response) => {
-  // Get all bugs and return here...may want to paginate?
-  const bugs = await redis.hGetAll("bugs");
-
-  return bugs;
-});
-
-app.listen(port, async () => {
-  await redis.connect();
-  console.log(`⚡️[server]: Server is running at ${host}:${port}`);
-});
+server.on('listening', () =>
+  logger.info('Feathers application started on http://%s:%d', app.get('host'), port)
+);
